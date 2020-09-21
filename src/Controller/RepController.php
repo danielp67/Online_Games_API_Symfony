@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RepController extends AbstractController
@@ -11,13 +10,9 @@ class RepController extends AbstractController
     /**
      * @Route("/rep", name="rep")
      */
-    public function index()
+    public function game()
     {
-        $content = file_get_contents('../public/gameslist.json');
-        $response = new Response();
-        $response->setContent($content);
-        $response->headers->set('Content-Type', 'application/json');
-        
-        return $response;
+        $content = json_decode(file_get_contents('../public/gameslist.json'));
+        return $this->json($content);
     }
 }
