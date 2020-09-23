@@ -113,6 +113,7 @@ class Comments implements \JsonSerializable
                 "author" => $this->getAuthor(),
                 "comment" => $this->getComment(),
                 "rate" => $this->getRate(),
-                "createAt" => $this->getCreateAt()->format('d-m-Y \à H:i:s')];
+                "createAt" => $this->getCreateAt()->format('d-m-Y \à H:i:s'),
+                "gameId" => $this->getGameId()->getId()];
     }
 }

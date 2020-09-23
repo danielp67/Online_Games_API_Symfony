@@ -16,9 +16,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class CommentController extends AbstractController
 {
     /**
-     * @Route("/game/{id}", name="postComment", methods={"POST"})
+     * @Route("/comment/add/{id}", name="addComment", methods={"POST"})
      */
-    public function postComment(GamesRepository $GamesRepository, $id)
+    public function addComment(GamesRepository $GamesRepository, $id)
     {
         $request = Request::createFromGlobals();
         $content = $request->getContent();
@@ -47,4 +47,63 @@ class CommentController extends AbstractController
         //dd($com);
         return $response = JsonResponse::fromJsonString('{"validation" : "true"}');
     }
+
+
+     /**
+     * @Route("/comment/delete/{id}", name="deleteComment", methods={"DELETE"})
+     */
+    public function deleteComment(CommentsRepository $CommentsRepository, $id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $comment = $this->getDoctrine()->getRepository(Comments::class)->find($id);
+
+        $entityManager->remove($comment);
+        $entityManager->flush();
+
+       return $response = JsonResponse::fromJsonString('{"add" : "true"}');
+    }
+
+    /**
+     * @Route("/comment/update/{id}", name="updateComment", methods={"POST"})
+     */
+    public function updateComment(CommentsRepository $CommentsRepository, $id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $comment = $this->getDoctrine()->getRepository(Comments::class)->find($id);
+
+        if (!$comment) {
+            throw $this->createNotFoundException(
+                'No comment found for id '.$id
+            );
+        }
+        
+        $request = Request::createFromGlobals();
+        $content = $request->getContent();
+        $content = json_decode($content);
+
+        $comment->setComment($content->comment);
+        $comment->setRate($content->rate);
+
+        $entityManager->flush();
+    
+       return $response = JsonResponse::fromJsonString('{"update" : "true"}');
+    }
+
+    /**
+     * @Route("/comment/get/{id}", name="getComment", methods={"GET","HEAD"})
+     */
+    public function getComment(CommentsRepository $CommentsRepository, $id)
+    {
+        $data = $CommentsRepository->findBy(['id' =>$id]);
+
+        return $this->json($data);
+    }
+
+
+
+
+
+
+
+
 }
