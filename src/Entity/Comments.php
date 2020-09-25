@@ -28,7 +28,7 @@ class Comments implements \JsonSerializable
     private $comment;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      */
     private $rate;
 
@@ -71,12 +71,12 @@ class Comments implements \JsonSerializable
         return $this;
     }
 
-    public function getRate(): ?int
+    public function getRate(): ?float
     {
         return $this->rate;
     }
 
-    public function setRate(int $rate): self
+    public function setRate(float $rate): self
     {
         $this->rate = $rate;
 

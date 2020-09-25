@@ -26,12 +26,11 @@ class CommentController extends AbstractController
         $comment = new Comments();
         //$com = $GamesRepository->findBy(['id' =>$id]);
         $game = $this->getDoctrine()->getRepository(Games::class)->find($id);
-      
         $entityManager = $this->getDoctrine()->getManager();
         $comment = new Comments();
         $comment->setAuthor($content->author);
         $comment->setComment($content->comment);
-        $comment->setRate($content->rate);
+        $comment->setRate(floatval($content->rate));
         $date = new DateTime($content->createAt);
         $comment->setCreateAt($date);
 
@@ -64,7 +63,7 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("/comment/update/{id}", name="updateComment", methods={"POST"})
+     * @Route("/comment/update/{id}", name="updateComment", methods={"PUT"})
      */
     public function updateComment(CommentsRepository $CommentsRepository, $id)
     {
