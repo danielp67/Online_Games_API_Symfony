@@ -79,7 +79,6 @@ class GameController extends AbstractController
             $game->addCategoryId($category);
         }
 
-
        $entityManager = $this->getDoctrine()->getManager();
 
        // $game->setName($request->request->get('name'));
@@ -91,7 +90,6 @@ class GameController extends AbstractController
        
        // dd($game);
 
-
         $file = $request->files->get('file');
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $date = new DateTime();
@@ -99,16 +97,12 @@ class GameController extends AbstractController
         $fileName = $new.'.'.$file->guessExtension();
         $file->move('C:/wamp64/www/tp14_symphony_cli/data/img', $fileName);
 
-
-
         $game->setImg($fileName);
-
         
         $entityManager->persist($game);
 
         // actually executes the queries (i.e. the INSERT query)
         $entityManager->flush();
-
 
         $response = new Response();
         //$response->headers->set('content-type','image/png');
