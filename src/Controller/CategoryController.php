@@ -5,30 +5,19 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CategoryController extends AbstractController
 {
     /**
-     * @Route("/category", name="category")
+     * @Route("/category/{id}", name="selectedCategory", methods={"GET"})
      */
-    public function getCategories(CategoryRepository $CategoryRepository)
-    {   
-        $data = $CategoryRepository->findAll();
-        
-        return $this->json($data);
-    }
+    public function getCategory(CategoryRepository $categoryRepository, $id): JsonResponse
+    {
 
-        /**
-     * @Route("/category/{id}", name="selectedCategory")
-     */
-    public function getCategory(CategoryRepository $CategoryRepository, $id)
-    {   
-        //$game = $GamesRepository->findBy(['category_id' =>$id]);
+        $game = $categoryRepository->find($id);
 
-        $game = $this->getDoctrine()->getRepository(Category::class)->find($id);
-      
-      //  dd($game->getGames());
         return $this->json($game->getGames());
     }
 

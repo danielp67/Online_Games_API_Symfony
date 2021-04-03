@@ -16,16 +16,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class CommentController extends AbstractController
 {
     /**
-     * @Route("/comment/add/{id}", name="addComment", methods={"POST"})
+     * @Route("/comment/{id}", name="getComment", methods={"GET"})
      */
-    public function addComment(GamesRepository $GamesRepository, $id)
+    public function getComment(CommentsRepository $commentsRepository, $id): JsonResponse
+    {
+        $comment = $commentsRepository->findBy(['id' =>$id]);
+
+        return $this->json($comment);
+    }
+
+    /**
+     * @Route("/comment/new/{gameId}", name="addComment", methods={"POST"})
+     */
+    public function addComment(GamesRepository $gamesRepository, $gameId): JsonResponse
     {
         $request = Request::createFromGlobals();
         $content = $request->getContent();
         $content = json_decode($content);
-        $comment = new Comments();
-        //$com = $GamesRepository->findBy(['id' =>$id]);
-        $game = $this->getDoctrine()->getRepository(Games::class)->find($id);
+        $game = $gamesRepository->find($gameId);
+
         $entityManager = $this->getDoctrine()->getManager();
         $comment = new Comments();
         $comment->setAuthor($content->author);
@@ -35,40 +44,25 @@ class CommentController extends AbstractController
         $comment->setCreateAt($date);
 
         $game->addComment($comment);
-        // dd($comment);
+
         // tell Doctrine you want to (eventually) save the Product (no queries yet)
         $entityManager->persist($comment);
-
         // actually executes the queries (i.e. the INSERT query)
         $entityManager->flush();
         
-        
-        //dd($com);
-        return $response = JsonResponse::fromJsonString('{"validation" : "true"}');
+        return $response = JsonResponse::fromJsonString('{"post" : "true"}');
     }
 
 
-     /**
-     * @Route("/comment/delete/{id}", name="deleteComment", methods={"DELETE"})
-     */
-    public function deleteComment(CommentsRepository $CommentsRepository, $id)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $comment = $this->getDoctrine()->getRepository(Comments::class)->find($id);
 
-        $entityManager->remove($comment);
-        $entityManager->flush();
-
-       return $response = JsonResponse::fromJsonString('{"add" : "true"}');
-    }
 
     /**
-     * @Route("/comment/update/{id}", name="updateComment", methods={"PUT"})
+     * @Route("/comment/{id}", name="updateComment", methods={"PUT"})
      */
-    public function updateComment(CommentsRepository $CommentsRepository, $id)
+    public function updateComment(CommentsRepository $commentsRepository, $id): JsonResponse
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $comment = $this->getDoctrine()->getRepository(Comments::class)->find($id);
+        $comment = $commentsRepository->find($id);
 
         if (!$comment) {
             throw $this->createNotFoundException(
@@ -82,27 +76,25 @@ class CommentController extends AbstractController
 
         $comment->setComment($content->comment);
         $comment->setRate($content->rate);
-
+        $entityManager->persist($comment);
         $entityManager->flush();
     
        return $response = JsonResponse::fromJsonString('{"update" : "true"}');
     }
 
     /**
-     * @Route("/comment/get/{id}", name="getComment", methods={"GET","HEAD"})
+     * @Route("/comment/{id}", name="deleteComment", methods={"DELETE"})
      */
-    public function getComment(CommentsRepository $CommentsRepository, $id)
+    public function deleteComment(CommentsRepository $commentsRepository, $id): JsonResponse
     {
-        $data = $CommentsRepository->findBy(['id' =>$id]);
+        $entityManager = $this->getDoctrine()->getManager();
+        $comment = $commentsRepository->find($id);
 
-        return $this->json($data);
+        $entityManager->remove($comment);
+        $entityManager->flush();
+
+        return $response = JsonResponse::fromJsonString('{"delete" : "true"}');
     }
-
-
-
-
-
-
 
 
 }

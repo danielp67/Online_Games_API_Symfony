@@ -80,7 +80,8 @@ class Category implements \JsonSerializable
     }
 
 
-    public function jsonserialize() {
+    public function jsonserialize(): array
+    {
 
         return ["id" => $this->getId(),
                 "name" => $this->getName()];
