@@ -1,7 +1,7 @@
 # API Online Games Database
 
 ## Target : Create an API in Symfony to communicate DATA with the following projet : 
-https://github.com/danielp67/Online_Games_React_JS
+## [Online_Games_React_JS](https://github.com/danielp67/Online_Games_React_JS)
 
 ---
 
@@ -33,6 +33,16 @@ Tools :
 ### Phase 3 : Make API documentation with Swagger.io from 29-09-2020 to 29-09-2020
 
 ---
+
+##API Documentation
+
+
+| [Swagger.io](https://editor.swagger.io/?_ga=2.118298831.75571342.1617454134-13766333.1617302106)
+| [PDF](doc/api-documentation.pdf)
+| [JSON](doc/openapi.json)
+| [YAML](doc/api.yaml)
+|
+
 ## Overview :
 
 ### Home Page
@@ -45,6 +55,12 @@ Tools :
 
 ### Add New Comment
 ![inplay](data/screenshot/Image3.png)
+
+
+### API Documentation with Swagger.io 
+![inplay](data/screenshot/Image4.png)
+
+![inplay](data/screenshot/Image5.png)
 
 
 

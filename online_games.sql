@@ -27,8 +27,14 @@ SET time_zone = "+00:00";
 --
 -- Structure de la table `category`
 --
-
+DROP TABLE IF EXISTS `comments`;
+DROP TABLE IF EXISTS `games_category`;
+DROP TABLE IF EXISTS `games`;
+DROP TABLE IF EXISTS `studio`;
 DROP TABLE IF EXISTS `category`;
+
+
+
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -58,7 +64,6 @@ INSERT INTO `category` (`id`, `name`) VALUES
 -- Structure de la table `comments`
 --
 
-DROP TABLE IF EXISTS `comments`;
 CREATE TABLE IF NOT EXISTS `comments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `game_id_id` int(11) DEFAULT NULL,
@@ -76,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
 
 INSERT INTO `comments` (`id`, `game_id_id`, `author`, `comment`, `rate`, `create_at`) VALUES
 (1, 1, 'pierre', 'oui oui oui !!!', 2.5, '2020-09-21 16:26:00'),
-(2, 2, 'dany', 'oui super top', 4, '2020-09-22 11:32:24'),
+(2, 1, 'dany', 'oui super top', 4, '2020-09-22 11:32:24'),
 (3, 2, 'greg', 'trop violent !!! mais toujours top', 2.5, '2020-09-22 16:32:28'),
 (4, 3, 'alain', 'excellent tout simplement !!!', 5, '2020-09-23 15:21:50'),
 (5, 3, 'tom', 'vivement le prochain', 5, '2020-09-24 09:16:17'),
@@ -84,7 +89,7 @@ INSERT INTO `comments` (`id`, `game_id_id`, `author`, `comment`, `rate`, `create
 (7, 4, 'lucas', 'excellent', 4, '2020-09-25 10:52:49'),
 (8, 4, 'camille', 'un peu de bugs mais sinon génial', 3.5, '2020-09-25 10:53:13'),
 (9, 4, 'fabien', 'horrible', 1, '2020-09-25 10:54:28'),
-(10, 1, 'jean', 'pas assez difficile, multijoueur pas terrible', 2, '2020-09-15 10:54:28'),
+(10, 2, 'jean', 'pas assez difficile, multijoueur pas terrible', 2, '2020-09-15 10:54:28'),
 (11, 5, 'pierre', 'oui oui oui !!!', 2.5, '2020-09-21 16:26:00'),
 (12, 6, 'dany', 'oui super top', 4, '2020-09-22 11:32:24'),
 (13, 6, 'greg', 'trop violent !!! mais toujours top', 2.5, '2020-09-22 16:32:28'),
@@ -139,7 +144,6 @@ INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_
 -- Structure de la table `games`
 --
 
-DROP TABLE IF EXISTS `games`;
 CREATE TABLE IF NOT EXISTS `games` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -182,7 +186,6 @@ INSERT INTO `games` (`id`, `name`, `img`, `release_at`, `plateformes`, `copies_s
 -- Structure de la table `games_category`
 --
 
-DROP TABLE IF EXISTS `games_category`;
 CREATE TABLE IF NOT EXISTS `games_category` (
   `games_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
@@ -224,7 +227,6 @@ INSERT INTO `games_category` (`games_id`, `category_id`) VALUES
 -- Structure de la table `studio`
 --
 
-DROP TABLE IF EXISTS `studio`;
 CREATE TABLE IF NOT EXISTS `studio` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
